@@ -9,7 +9,7 @@ void setup() {
 
   Serial.println(F("try start lua"));
   lua_State* lua = luaL_newstate();
-  luaL_openlibs(lua);
+  //luaL_openlibs(lua);
   if (luaL_dostring(lua, "print('test')") != LUA_OK) {
     const char* err = lua_tostring(lua, -1);
     Serial.print(F("lua crashed: "));
