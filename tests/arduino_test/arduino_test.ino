@@ -5,7 +5,7 @@ extern "C" {
 }
 
 static int _uartout(lua_State* lua) {
-  Serial.println(luaL_checkstring(lua, 0));
+  Serial.println(luaL_checkstring(lua, 1));
   return 0;
 } 
 
