@@ -596,12 +596,7 @@
 ** its only purpose is to stop Lua from consuming unlimited stack
 ** space (and to reserve some numbers for pseudo-indices).
 */
-#if LUAI_BITSINT >= 32
-#define LUAI_MAXSTACK		1000000
-#else
-#define LUAI_MAXSTACK		15000
-#endif
-
+#define LUAI_MAXSTACK		512
 
 /*
 @@ LUA_EXTRASPACE defines the size of a raw memory area associated with
@@ -626,11 +621,7 @@
 ** smaller buffer would force a memory allocation for each call to
 ** 'string.format'.)
 */
-#if LUA_FLOAT_TYPE == LUA_FLOAT_LONGDOUBLE
-#define LUAL_BUFFERSIZE		8192
-#else
-#define LUAL_BUFFERSIZE   ((int)(0x80 * sizeof(void*) * sizeof(lua_Integer)))
-#endif
+#define LUAL_BUFFERSIZE		64
 
 /* }================================================================== */
 
