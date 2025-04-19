@@ -176,24 +176,25 @@ static int math_ult (lua_State *L) {
   return 1;
 }
 
-static int math_log (lua_State *L) {
-  lua_Number x = luaL_checknumber(L, 1);
-  lua_Number res;
-  if (lua_isnoneornil(L, 2))
-    res = l_mathop(log)(x);
-  else {
-    lua_Number base = luaL_checknumber(L, 2);
-#if !defined(LUA_USE_C89)
-    if (base == l_mathop(2.0))
-      res = l_mathop(log2)(x); else
-#endif
-    if (base == l_mathop(10.0))
-      res = l_mathop(log10)(x);
-    else
-      res = l_mathop(log)(x)/l_mathop(log)(base);
-  }
-  lua_pushnumber(L, res);
-  return 1;
+static int math_log(lua_State *L) {
+    lua_Number x = luaL_checknumber(L, 1);
+    lua_Number res;
+
+    if (lua_isnoneornil(L, 2)) {
+        res = log(x);
+    } else {
+        lua_Number base = luaL_checknumber(L, 2);
+        if (base == 2.0) {
+            res = log2(x);
+        } else if (base == 10.0) {
+            res = log10(x);
+        } else {
+            res = log(x) / log(base);
+        }
+    }
+
+    lua_pushnumber(L, res);
+    return 1;
 }
 
 static int math_exp (lua_State *L) {
@@ -399,7 +400,7 @@ LUAMOD_API int luaopen_math (lua_State *L) {
   luaL_newlib(L, mathlib);
   lua_pushnumber(L, PI);
   lua_setfield(L, -2, "pi");
-  lua_pushnumber(L, (lua_Number)HUGE_VAL);
+  lua_pushnumber(L, (lua_Number)INFINITY);
   lua_setfield(L, -2, "huge");
   lua_pushinteger(L, LUA_MAXINTEGER);
   lua_setfield(L, -2, "maxinteger");

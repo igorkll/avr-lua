@@ -106,35 +106,9 @@ static time_t l_checktime (lua_State *L, int arg) {
 ** it uses mkstemp.
 ** ===================================================================
 */
-#if !defined(lua_tmpnam)	/* { */
-
-#if defined(LUA_USE_POSIX)	/* { */
-
-#include <unistd.h>
-
-#define LUA_TMPNAMBUFSIZE	32
-
-#if !defined(LUA_TMPNAMTEMPLATE)
-#define LUA_TMPNAMTEMPLATE	"/tmp/lua_XXXXXX"
-#endif
-
-#define lua_tmpnam(b,e) { \
-        strcpy(b, LUA_TMPNAMTEMPLATE); \
-        e = mkstemp(b); \
-        if (e != -1) close(e); \
-        e = (e == -1); }
-
-#else				/* }{ */
-
-/* ISO C definitions */
-#define LUA_TMPNAMBUFSIZE	L_tmpnam
-#define lua_tmpnam(b,e)		{ e = (tmpnam(b) == NULL); }
-
-#endif				/* } */
-
-#endif				/* } */
-/* }================================================================== */
-
+#define LUA_TMPNAMBUFSIZE	1
+#define LUA_TMPNAMTEMPLATE	""
+#define lua_tmpnam(b,e) {strcpy(b, LUA_TMPNAMTEMPLATE); e = 0;}
 
 
 
