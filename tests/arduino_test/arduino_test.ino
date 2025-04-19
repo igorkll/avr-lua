@@ -4,6 +4,8 @@ extern "C" {
   #include <lualib.h>
 }
 
+static lua_State* lua;
+
 static int _uartout(lua_State* lua) {
   Serial.println(luaL_checkstring(lua, 1));
   return 0;
@@ -11,12 +13,15 @@ static int _uartout(lua_State* lua) {
 
 void setup() {
   Serial.begin(9600);
+  Serial.setTimeout(25);
 
-  lua_State* lua = luaL_newstate();
+  lua = luaL_newstate();
   lua_pushcfunction(lua, _uartout);
   lua_setglobal(lua, "uartout");
+}
 
-  while (true) {
+void loop() {
+  if (Serial.available()) {
     String code = Serial.readString();
     
     Serial.println(F("lua start"));
@@ -28,8 +33,4 @@ void setup() {
       Serial.println(F("lua end"));
     }
   }
-}
-
-void loop() {
-  
 }
