@@ -184,9 +184,7 @@ static int math_log(lua_State *L) {
         res = log(x);
     } else {
         lua_Number base = luaL_checknumber(L, 2);
-        if (base == 2.0) {
-            res = log2(x);
-        } else if (base == 10.0) {
+        if (base == 10.0) {
             res = log10(x);
         } else {
             res = log(x) / log(base);
